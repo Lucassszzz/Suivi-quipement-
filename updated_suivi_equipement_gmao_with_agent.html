@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suivi d'Équipement GMAO</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #e8f0fe;
+        }
+
+        h1 {
+            color: #1976d2;
+        }
+
+        form, #searchResult, #currentLocation {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        label, button {
+            color: #1976d2;
+        }
+
+        input[type="text"], select {
+            margin-right: 10px;
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #1976d2;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #1976d2;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #1565c0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Suivi d'Équipement</h1>
+    <form>
+        <label for="agentName">Nom de l'agent:</label>
+        <input type="text" id="agentName" name="agentName"><br>
+        <label for="equipmentName">Nom de l'équipement:</label>
+        <input type="text" id="equipmentName" name="equipmentName"><br>
+        <label for="location">Emplacement:</label>
+        <select id="location" name="location">
+            <option value="TGV COND">TGV COND</option>
+            <option value="TGV CABINE">TGV CABINE</option>
+        </select>
+        <button type="button" onclick="submitForm()">Soumettre</button>
+    </form>
+    <div id="currentLocation"></div>
+    <h2>Rechercher l'Emplacement d'un Équipement</h2>
+    <input type="text" id="searchEquipmentName" placeholder="Entrez le nom de l'équipement">
+    <button onclick="searchLocation()">Rechercher</button>
+    <div id="searchResult"></div>
+    <script>
+        const equipmentDatabase = {};
+
+        function submitForm() {
+            const agentName = document.getElementById('agentName').value;
+            const equipmentName = document.getElementById('equipmentName').value;
+            const location = document.getElementById('location').value;
+            equipmentDatabase[equipmentName] = { location: location, agent: agentName };
+            document.getElementById('currentLocation').textContent = `L'équipement ${equipmentName} est actuellement situé à ${location}, géré par ${agentName}.`;
+        }
+
+        function searchLocation() {
+            const searchName = document.getElementById('searchEquipmentName').value;
+            const equipmentInfo = equipmentDatabase[searchName];
+            if (equipmentInfo) {
+                document.getElementById('searchResult').textContent = `L'équipement recherché, ${searchName}, est situé à ${equipmentInfo.location}, géré par ${equipmentInfo.agent}.`;
+            } else {
+                document.getElementById('searchResult').textContent = `Aucun équipement nommé ${searchName} trouvé.`;
+            }
+        }
+    </script>
+</body>
+</html>
